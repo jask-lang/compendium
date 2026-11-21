@@ -88,6 +88,7 @@ dotnet run --allow-stdout --allow-stdin --allow-read --allow-write \
 | `--allow-stdout` | `-ao` | Allow `print` / `printLine` |
 | `--allow-stdin` | `-ai` | Allow `readInput` |
 | `--allow-trust` | `-at` | Allow `trust()` |
+| `--allow-interpret` | `-ae` | Allow `interpret()` — running dynamically-constructed jask code |
 | `--allow-read` | `-ar` | Allow reading files / loading modules (optionally restricted to paths) |
 | `--allow-write` | `-aw` | Allow `writeFile` (optionally restricted to paths) |
 | `--allow-network` | `-an` | Allow `get` / `post` *(supported, but not listed in `--help`)* |

@@ -21,10 +21,15 @@ and fail (a catchable `LangException`) if it is missing.
 | `write` | `--allow-write` / `-aw` | `writeFile` |
 | `allow-network` | `--allow-network` / `-an` | `get`, `post` |
 | `allow-trust-override` | `--allow-trust` / `-at` | `trust` only |
+| `interpret` | `--allow-interpret` / `-ae` | `interpret` only |
 
-> **Naming quirk:** the four I/O permissions are named `stdout`/`stdin`/`read`/`write` in error
-> messages, but the network and trust permissions keep their flag-style names
+> **Naming quirk:** error messages use the short names `stdout`/`stdin`/`read`/`write` and
+> `interpret`, but the network and trust permissions keep their flag-style names
 > (`allow-network`, `allow-trust-override`). `verify` and `untrust` need **no** permission.
+>
+> **`interpret` is a data→code gate.** It does not expand what the interpreted code can do — that code
+> runs under the host's existing permissions — but it stops a program from executing
+> dynamically-constructed source at all. Treat it like `trust`: an explicit, grantable capability.
 
 ### `--allow-all`
 

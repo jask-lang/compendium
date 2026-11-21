@@ -10,7 +10,9 @@ attributed, and the language's known limitations and quirks.
 ## Dynamic code (`interpret`)
 
 `interpret` runs a string of jask source at runtime and returns a value. It reuses the exact same
-lexer → parser → executor pipeline as a normal script.
+lexer → parser → executor pipeline as a normal script. It is gated behind the **`interpret`
+permission** (`--allow-interpret` / `-ae`): without it, the call fails with
+`Missing permission 'interpret' for function 'interpret'`.
 
 ```jask
 interpret("2 + 2")                       ; 4
@@ -28,6 +30,8 @@ set r = interpret("
 - **Scope**: runs in a **fresh local scope** on top of the current environment. It can **read** every
   existing variable, function, struct, and module. A plain `set` stays local and is discarded when
   `interpret` returns; `set global …` and `set existing.field = …` can still modify shared state.
+  `function` and `struct` definitions made inside `code` are also **rolled back** when `interpret`
+  returns (they do not leak into the caller's function/struct tables).
 
   ```jask
   set x = 10
@@ -44,8 +48,9 @@ set r = interpret("
       printLine(e.message)
   endtry
   ```
-- **Permissions**: inherits the host program's permission set — the interpreted code can do exactly
-  what the host script can (and no more).
+- **Permissions**: the `interpret` *call itself* requires the `interpret` permission. Once granted, the
+  interpreted code inherits the host program's permission set — it can do exactly what the host script
+  can (and no more). So the permission gates *whether dynamic code may run*, not *what that code may do*.
 - **Nesting** works: `interpret("interpret(\"1 + 1\") + 2")` → `4`.
 
 ### Files

@@ -54,8 +54,11 @@ Sleeps the current thread for `seconds` (fractional ms truncated). Returns `nil`
 
 ### `interpret(code)`
 Runs `code` (a `string`) as jask source in the current environment and returns the value of the last
-top-level expression (or `nil`). See [Advanced Topics → interpret](13-advanced-topics.md#dynamic-code-interpret).
-*Error:* `Function 'interpret' expects a string argument, but got '<type>'`.
+top-level expression (or `nil`). *Requires* `interpret` (`--allow-interpret` / `-ae`). Function and
+struct definitions made inside `code` do **not** leak back to the caller. See
+[Advanced Topics → interpret](13-advanced-topics.md#dynamic-code-interpret).
+*Errors:* `Missing permission 'interpret' for function 'interpret'`;
+`Function 'interpret' expects a string argument, but got '<type>'`.
 
 ### `toNumber(value)`
 Converts a `number` (unchanged) or a numeric `string` to a `number`.
